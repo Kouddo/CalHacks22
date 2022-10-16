@@ -14,7 +14,7 @@ def basicmodel(prompt):
         stop_sequences=["--"])
 
 
-def getSummary(image, summarize_model):
+def getSummary(image, summarize_model = basicmodel):
     co = cohere.Client('ckMlwTDnjIuNedsF6stcXHX75O97Nwndd0qfIVMA')
     
     
