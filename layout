@@ -1,0 +1,47 @@
+import layoutparser as lp
+import cv2
+import numpy as np
+import pytesseract
+import cohere
+
+
+
+image = cv2.imread('/Users/achennupati/Desktop/testimg.png')
+#this is to get in RGB format instead of BGR
+image = image[..., ::-1] 
+
+
+
+
+model = lp.Detectron2LayoutModel(
+        config_path ='lp://PubLayNet/faster_rcnn_R_50_FPN_3x/config', # In model catalog
+        label_map   ={0: "Text", 1: "Title", 2: "List", 3:"Table", 4:"Figure"}, # In model`label_map`
+        extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.8] # Optional
+    )
+
+layout = model.detect(image)
+
+text_blocks = lp.Layout([b for b in layout if b.type=='Text'])
+figure_blocks = lp.Layout([b for b in layout if b.type=='Figure'])
+
+
+for block in text_blocks:
+    segment_image = (block
+                       .pad(left=5, right=5, top=5, bottom=5)
+                       .crop_image(image))
+        
+    text = pytesseract.image_to_string(segment_image)
+    block.set(text=text, inplace=True)
+
+text = text_blocks[0].text
+text = text.replace("\n", " ")
+
+
+co = cohere.Client('ckMlwTDnjIuNedsF6stcXHX75O97Nwndd0qfIVMA')
+response = co.generate( 
+    model='xlarge', 
+    prompt = text,
+    max_tokens=40, 
+    temperature=0.8,
+    stop_sequences=["--"])
+
