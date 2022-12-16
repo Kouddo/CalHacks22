@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrunchTime</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/rendertools.css') }}"/>
+  {{ dropzone.load_css() }}
+  {{ dropzone.style('border: 8px; border-color: #474747;border-radius: 20px;width: 480px;height: 350px;margin: 15px 50px auto;padding: 20px;color: #EDE7E3;') }}
+</head>
+<body>
+<section>
+  <div id="drop-area">
+    <form action="{{ url_for('tools') }}" class="dropzone">
+    </form>
+  </div>
+  <div class="circle__wrapper"></div>
+  <header>
+    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"/></a>
+    <h1><br/>DTEST</h2>
+    <div class="toggle" onclick="toggleMenu();"></div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="tools">Tools</a></li>
+      <li><a href="page3.html">What's new</a></li>
+      <li><a href="page4.html">Contact</a></li>
+    </ul>
+  </header>
+
+  <div class="content">
+    <div class="textBox">
+      <p>TESTING</p>
+    </div>
+    <div class="imgBox">
+
+    </div>
+  </div>
+
+  <ul class="sci">
+    <li><a href="#"><img src="{{ url_for('static', filename='images/facebook.png') }}"></img></a></li>
+    <li><a href="#"><img src="{{ url_for('static', filename='images/twitter.png') }}"></img></a></li>
+    <li><a href="#"><img src="{{ url_for('static', filename='images/instagram.png') }}"></img></a></li>
+  </ul>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+<script type="text/javascript">
+  function toggleMenu() {
+    var menuToggle = document.querySelector('.toggle')
+    var navigation = document.querySelector('.navigation')
+    menuToggle.classList.toggle('active')
+    navigation.classList.toggle('active')
+  }
+</script>
+</body>
+</html>
